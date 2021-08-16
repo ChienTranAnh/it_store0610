@@ -10,6 +10,7 @@ use App\Models\NguoiDung;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;// khai báo để úp ảnh
 // use App\Http\Controllers\Carbon;
+use Illuminate\Support\Arr;
 
 class BlogController extends Controller
 {
@@ -122,38 +123,51 @@ class BlogController extends Controller
     }
 
     // cập nhật tình trạng sp, duyệt, ngày duyệt
-    public function capNhat(Request $res, $id)
+    public function capNhat(Request $res)
     {
         // $trangThai = TrangThai::all();
-        $blog = Blog::find($id);
+        $blog_id_arr = json_decode($res->blog_id_arr);
+        //$blog_id_arr = Arr::toArray($blog_id_arr);
+        //dd($blog_id_arr);
 
-        if (session('user')->Id != $blog->BloggerId)
-        {
-            if ($blog->ChuDeId != $res->ChuDeId) {
-                $blog->ChuDeId = $res->input('ChuDeId');
-            }
-            else {
-                $blog->ChuDeId = $blog->ChuDeId;
-            }
+        $blogs = Blog::whereIn('Id', $blog_id_arr)->get();
 
-            if ($res->DaDuyet > 0)
+        foreach($blogs as $blog){
+            if (session('user')->Id != $blog->BloggerId)
             {
-                $blog->DaDuyet = $res->input('DaDuyet');
-                $blog->NgayDuyet = now();
+                // if ($blog->ChuDeId != $res->ChuDeId) {
+                //     $blog->ChuDeId = $res->input('ChuDeId');
+                // }
+                // else {
+                //     $blog->ChuDeId = $blog->ChuDeId;
+                // }
+
+                // if ($res->DaDuyet > 0)
+                // {
+                //     $blog->DaDuyet = $res->input('DaDuyet');
+                //     $blog->NgayDuyet = now();
+                // }
+                // else {
+                //     $blog->DaDuyet = $res->input('DaDuyet');
+                //     $blog->NgayDuyet = null;
+                // }
+                $blog->DaDuyet = 1;
+                
+                $blog->NgaySua = now();
+                $blog->save();
+            
+            // return view('blog.bloginfo', ['thongBao'=>$thongBao, 'blogs'=>$blog, 'trangThais'=>$trangThai]);
+               // return redirect()->back()->with(['class'=>'alert-success', 'thongBao' => 'Cập nhật thành công!']);
+               return response()->json([
+                   'message' => 'success'
+               ]);
             }
             else {
-                $blog->DaDuyet = $res->input('DaDuyet');
-                $blog->NgayDuyet = null;
+                //return redirect()->back()->with(['class'=>'alert-danger', 'thongBao' => 'Bạn không được tự duyệt bài của bạn!']);
+                return response()->json([
+                    'message' => 'Bạn không được tự duyệt bài của bạn!'
+                ]);
             }
-            
-            $blog->NgaySua = now();
-            $blog->save();
-        
-        // return view('blog.bloginfo', ['thongBao'=>$thongBao, 'blogs'=>$blog, 'trangThais'=>$trangThai]);
-            return redirect()->back()->with(['class'=>'alert-success', 'thongBao' => 'Cập nhật thành công!']);
-        }
-        else {
-            return redirect()->back()->with(['class'=>'alert-danger', 'thongBao' => 'Bạn không được tự duyệt bài của bạn!']);
         }
     }
 

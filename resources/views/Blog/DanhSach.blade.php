@@ -11,7 +11,6 @@
 <div class="row">
     <div class="col-md-12">
         <div class="tile">
-            {{-- <form action="/blog/danhsach" method="POST"><input type="hidden" name="_token" value="{{csrf_token()}}"> --}}
                <div class="form-group" style="text-align: right">
                   <h3 style="float: left">Danh sách bài viết</h3>
                   <div>
@@ -20,14 +19,15 @@
                </div>
                <div class="form-group">
                   <div class="row">
-                     <div class="col-md-2"></div>
+                     <div class="col-md-1"></div>
                      <div class="col-md-2" style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
                         <h4>Tìm nhanh:</h4>
                      </div>
                   </div>
                   <div class="row">
+            {{-- <form action="/blog/danhsach" method="POST"><input type="hidden" name="_token" value="{{csrf_token()}}"> --}}
                      <div class="col-md-1 text-left">
-                        <button type="submit" class="btn btn-info"><i class="fas fa-check-double"> Duyệt</i></button>
+                        <button id="Duyet" type="submit" class="btn btn-info"><i class="fas fa-check-double"> Duyệt</i></button>
                      </div>
                      <div class="col-md-11">
                         <form action="/blog/danhsach">
@@ -95,7 +95,7 @@
                            <td class="text-center">
                               <div class="animated-checkbox">
                                  <label>
-                                    <input type="checkbox" id="td-checkbox-{{ $bl->Id }}"><span class="label-text"></span>
+                                    <input class="chk-selection" data-id="{{ $bl->Id }}" type="checkbox" id="td-checkbox-{{ $bl->Id }}"><span class="label-text"></span>
                                  </label>
                               </div>
                            </td>
@@ -208,26 +208,53 @@
 		<!-- inline scripts related to this page -->
       {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> --}}
       
-      {{-- <script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
+      <script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
 
 		<script type="text/javascript">
-         $(document).ready(function() {
-            var $selectAll = $('#selectAll'); // main checkbox inside table thead
-            var $table = $('.table'); // table selector 
-            var $tdCheckbox = $table.find('tbody input:checkbox'); // checboxes inside table body
-            var tdCheckboxChecked = 0; // checked checboxes
+         $(document).ready(function(){
 
-            // Select or deselect all checkboxes depending on main checkbox change
-            $selectAll.on('click', function () {
-               $tdCheckbox.prop('checked', this.checked);
+            //Khi tick vào checkbox trên cùng thì tick chọn tất cả các checkbox bên dưới
+            $('#selectAll').on('change', function(){
+               $('.chk-selection').each(function(idx, element){
+                  if($('#selectAll').is(':checked')){//Kiểm tra nếu checkbox trên cùng được tick
+                     $(element).prop('checked', 'checked');//tick chọn checkbox
+                  }
+                  else {
+                        $(element).prop('checked', '');//bỏ tick chọn checkbox
+                  }
+               });
             });
 
-            // Toggle main checkbox state to checked when all checkboxes inside tbody tag is checked
-            $tdCheckbox.on('change', function(e){
-               tdCheckboxChecked = $table.find('tbody input:checkbox:checked').length; // Get count of checkboxes that is checked
-               // if all checkboxes are checked, then set property of main checkbox to "true", else set to "false"
-               $selectAll.prop('checked', (tdCheckboxChecked === $tdCheckbox.length));
+            //Cứ mỗi 250ms thì kiểm tra xem các checkbox nào được tick không, nếu có thì đưa id của blog vào mảng
+            setInterval(function(){
+               var bl_id_arr = [];
+               $('.chk-selection').each(function(idx, element){
+                  if($(element).is(':checked')){
+                     var bl_id = $(element).attr('data-id');
+                     bl_id_arr.push(bl_id);//đưa id của blog vào mảng
+                     sessionStorage.setItem('blog_id_arr', JSON.stringify(bl_id_arr));//chuyển mảng chứa id của blog thành JSON rồi đưa vào sesion
+                  }
+               });
+            }, 250);
+
+            //Khi nhấn nút duyệt thì gửi mảng id trong session lên server
+            $('#Duyet').on('click', function(){
+               $.ajax({
+                  url : '/blog/chitiet',
+                  method : 'get',
+                  data : {
+                     'blog_id_arr' : sessionStorage.getItem('blog_id_arr')
+                  }
+               })
+               .done(function (data) {
+                  if(data.message == 'success'){ //nếu phản hồi về success thì reload lại trang web
+                     location.reload();
+                  }
+                  else {
+                     alert(data);
+                  }
+               });
             });
          });
-		</script> --}}
+		</script>
 @endsection

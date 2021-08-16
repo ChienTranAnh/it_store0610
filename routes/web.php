@@ -155,7 +155,8 @@ Route::group(['middleware'=>['checkDangNhap']], function() {
         
             route::post('/sanpham/chitiet/{id}', [SanPhamController::class, 'capNhat']);// sản phẩm
 
-            route::post('/blog/chitiet/{id}', [BlogController::class, 'capNhat']);// blog
+            // route::post('/blog/chitiet/{id}', [BlogController::class, 'capNhat']);// blog
+            route::get('/blog/chitiet', [BlogController::class, 'capNhat']);// blog
 
             // đơn hàng
             route::get('/donhang/sua/{id}', [DonHangController::class, 'chiTiet']);
