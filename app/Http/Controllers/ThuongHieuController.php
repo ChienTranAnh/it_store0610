@@ -13,14 +13,14 @@ class ThuongHieuController extends Controller
     public function danhSach()
     {
         $thuongHieu = thuonghieu::all();
-        return view('thuonghieu.danhsach', ['thuongHieus'=>$thuongHieu]);
+        return view('ThuongHieu.DanhSach', ['thuongHieus'=>$thuongHieu]);
     }
 
 
     // hàm hiển thị form thêm mới
     public function hienThiThemMoi()
     {
-        return view('thuonghieu.thuonghieuadd');
+        return view('ThuongHieu.ThuongHieuAdd');
     }
 
     // hàm thực hiện thêm mới
@@ -42,7 +42,7 @@ class ThuongHieuController extends Controller
         $thuongHieu = new thuonghieu($res->all());
 
         if ($validator->fails()) {
-            return view('thuonghieu.thuonghieuadd', ['thuongHieus'=>$thuongHieu])->withErrors($validator);
+            return view('ThuongHieu.ThuongHieuAdd', ['thuongHieus'=>$thuongHieu])->withErrors($validator);
         }
         $thuongHieu->save();
 
@@ -53,7 +53,7 @@ class ThuongHieuController extends Controller
     public function chiTiet($id)
     {
         $thuongHieu = thuonghieu::find($id);
-        return view('thuonghieu.thuonghieuedit', ['thuongHieus'=>$thuongHieu]);
+        return view('ThuongHieu.ThuongHieuEdit', ['thuongHieus'=>$thuongHieu]);
     }
 
     // hàm sửa thông tin theo mã

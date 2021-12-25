@@ -14,14 +14,14 @@ class LoaiKhachHangController extends Controller
     public function danhSach()
     {
         $loaiKH = LoaiKhachHang::all();
-        return view('loaikhachhang.danhsach', ['loaiKHs'=>$loaiKH]);
+        return view('LoaiKhachHang.DanhSach', ['loaiKHs'=>$loaiKH]);
     }
 
 
     // hàm hiển thị form thêm mới
     public function hienThiThemMoi()
     {
-        return view('loaikhachhang.loaiKHangadd');
+        return view('LoaiKhachHang.LoaiKHangAdd');
     }
 
     // hàm thực hiện thêm mới
@@ -44,7 +44,7 @@ class LoaiKhachHangController extends Controller
 
         $loaiKH = new LoaiKhachHang($res->all());
         if ($validator->fails()) {
-            return view('loaikhachhang.loaiKHangadd', ['loaiKHs'=>$loaiKH])->withErrors($validator);
+            return view('LoaiKhachHang.LoaiKHangAdd', ['loaiKHs'=>$loaiKH])->withErrors($validator);
         }
 
         $loaiKH->save();
@@ -56,7 +56,7 @@ class LoaiKhachHangController extends Controller
     public function chiTiet($id)
     {
         $loaiKH = LoaiKhachHang::find($id);
-        return view('loaikhachhang.loaiKHangedit', ['loaiKHs'=>$loaiKH]);
+        return view('LoaiKhachHang.LoaiKHangEdit', ['loaiKHs'=>$loaiKH]);
     }
 
     // hàm sửa thông tin theo mã

@@ -38,7 +38,7 @@ class NguoiDungController extends Controller
         
         $user = $user->appends(['tuKhoa'=>$tuKhoa, 'tkVaiTro'=>$vTro]);
 
-        return view('user.danhsach', ['nguoiDung'=>$user, 'vaiTros'=>$vaiTro, 'tuKhoa'=>$tuKhoa, 'maVT'=>$vTro]);
+        return view('User.DanhSach', ['nguoiDung'=>$user, 'vaiTros'=>$vaiTro, 'tuKhoa'=>$tuKhoa, 'maVT'=>$vTro]);
     }
 
 
@@ -46,7 +46,7 @@ class NguoiDungController extends Controller
     public function hienThiThemMoi()
     {
         $vaiTro = VaiTro::all();
-        return view('user.useradd', ['vaiTros'=>$vaiTro]);
+        return view('User.UserAdd', ['vaiTros'=>$vaiTro]);
     }
 
     // hàm thực hiện thêm mới
@@ -81,7 +81,7 @@ class NguoiDungController extends Controller
 
         $user = new NguoiDung($res->all());
         if ($validator->fails()) {
-            return view('user.useradd', ['nguoiDung'=>$user, 'vaiTros'=>$vaiTro])->withErrors($validator);
+            return view('User.UserAdd', ['nguoiDung'=>$user, 'vaiTros'=>$vaiTro])->withErrors($validator);
             // return redirect()->back()->withErrors($validator);
         }
         else
@@ -98,7 +98,7 @@ class NguoiDungController extends Controller
     public function chiTiet($id)
     {
         $user = NguoiDung::find($id);
-        return view('user.useredit', ['nguoiDung'=>$user]);
+        return view('User.UserEdit', ['nguoiDung'=>$user]);
     }
 
     // hàm sửa thông tin theo mã
@@ -144,7 +144,7 @@ class NguoiDungController extends Controller
     //
     public function getLogin()
     {
-        return view('dangnhap');
+        return view('DangNhap');
     }
 
     // đăng nhập
@@ -168,7 +168,7 @@ class NguoiDungController extends Controller
         
         if ($validator->fails()) {
             // Điều kiện dữ liệu không hợp lệ sẽ chuyển về trang đăng nhập và thông báo lỗi
-            return view('dangnhap',['user'=>$user])->withErrors($validator);
+            return view('DangNhap',['user'=>$user])->withErrors($validator);
         } elseif ($user) {
 
             if (hash::check($pass, $user->MatKhau)) {

@@ -38,14 +38,14 @@ class KhachHangController extends Controller
         // bổ sung tiêu chí tìm kiếm
         $khachHang->appends(['tuKhoa'=>$tuKhoa, 'tkLoaiKhachHang'=>$lkh]);
 
-        return view('khachhang.danhsach', ['khachHangs'=>$khachHang, 'tuKhoa'=>$tuKhoa, 'loaiKHs'=>$loaiKH, 'malkh'=>$lkh]);
+        return view('KhachHang.DanhSach', ['khachHangs'=>$khachHang, 'tuKhoa'=>$tuKhoa, 'loaiKHs'=>$loaiKH, 'malkh'=>$lkh]);
     }
 
 
     // hàm hiển thị form thêm mới
     public function register_show()
     {
-        return view('page.it_register')->with('thongBao','');
+        return view('Page.it_register')->with('thongBao','');
     }
 
     // hàm thực hiện thêm mới
@@ -102,7 +102,7 @@ class KhachHangController extends Controller
     public function chiTiet($id)
     {
         $khachHang = KhachHang::find($id);
-        return view('khachhang.danhsach', ['khachHangs'=>$khachHang]);
+        return view('KhachHang.DanhSach', ['khachHangs'=>$khachHang]);
     }
 
     // hàm sửa thông tin theo mã

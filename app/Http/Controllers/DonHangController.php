@@ -45,7 +45,7 @@ class DonHangController extends Controller
         // bổ sung tiêu chí tìm kiếm
         $donHang = $donHang->appends(['tuKhoa'=>$tuKhoa, 'tkTinhTrang'=>$tTr, 'tkHinhThucThanhToan'=>$hThuc]);
 // dd($donHang);
-        return view('donhang.danhsach', ['donHangs'=>$donHang, 'khachHangs'=>$khachHang, 'tuKhoa'=>$tuKhoa, 'tinhTrangDH'=>$tinhTrangDH, 'maTT'=>$tTr, 'hThuc'=>$hThuc]);
+        return view('DonHang.DanhSach', ['donHangs'=>$donHang, 'khachHangs'=>$khachHang, 'tuKhoa'=>$tuKhoa, 'tinhTrangDH'=>$tinhTrangDH, 'maTT'=>$tTr, 'hThuc'=>$hThuc]);
     }
 
 
@@ -54,18 +54,18 @@ class DonHangController extends Controller
     {
         $donHang = DonHang::find($id);
         dd($donHang);
-        // return view('donhang.sanphamedit', ['donHangs'=>$donHang, 'danhMucs'=>$danhMuc, 'thuongHieus'=>$thuongHieu]);
+        // return view('DonHang.sanphamedit', ['donHangs'=>$donHang, 'danhMucs'=>$danhMuc, 'thuongHieus'=>$thuongHieu]);
     }
 
     // hàm xem chi tiết
-    public function xemTruoc($id)
-    {
-        $danhMuc = DanhMuc::all();
-        $thuongHieu = ThuongHieu::all();
-        $trangThai = TrangThai::all();
-        $donHang = DonHang::find($id);
-        return view('donhang.sanphaminfo', ['donHangs'=>$donHang, 'danhMucs'=>$danhMuc, 'thuongHieus'=>$thuongHieu, 'trangThais'=>$trangThai]);
-    }
+    // public function xemTruoc($id)
+    // {
+    //     $danhMuc = DanhMuc::all();
+    //     $thuongHieu = ThuongHieu::all();
+    //     $trangThai = TrangThai::all();
+    //     $donHang = DonHang::find($id);
+    //     return view('DonHang.sanphaminfo', ['donHangs'=>$donHang, 'danhMucs'=>$danhMuc, 'thuongHieus'=>$thuongHieu, 'trangThais'=>$trangThai]);
+    // }
 
     // cập nhật tình trạng đơn hàng, duyệt, ngày duyệt, hoàn thành
     public function capNhat(Request $res, $id)

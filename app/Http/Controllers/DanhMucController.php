@@ -13,14 +13,14 @@ class DanhMucController extends Controller
     public function danhSach()
     {
         $danhMuc = DanhMuc::all();
-        return view('danhmuc.danhsach', ['danhMucs'=>$danhMuc]);
+        return view('DanhMuc.DanhSach', ['danhMucs'=>$danhMuc]);
     }
 
 
     // hàm hiển thị form thêm mới
     public function hienThiThemMoi()
     {
-        return view('danhmuc.danhmucadd');
+        return view('DanhMuc.DanhMucAdd');
     }
 
     // hàm thực hiện thêm mới
@@ -43,7 +43,7 @@ class DanhMucController extends Controller
 
         $danhMuc = new DanhMuc($res->all());
         if ($validator->fails()) {
-            return view('danhmuc.danhmucadd', ['danhMucs'=>$danhMuc])->withErrors($validator);
+            return view('DanhMuc.DanhMucAdd', ['danhMucs'=>$danhMuc])->withErrors($validator);
         }
 
         $danhMuc->save();
@@ -55,7 +55,7 @@ class DanhMucController extends Controller
     public function chiTiet($id)
     {
         $danhMuc = DanhMuc::find($id);
-        return view('danhmuc.danhmucedit', ['danhMucs'=>$danhMuc]);
+        return view('DanhMuc.DanhMucEdit', ['danhMucs'=>$danhMuc]);
     }
 
     // hàm sửa thông tin theo mã

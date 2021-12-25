@@ -40,7 +40,7 @@ class BlogController extends Controller
         // bổ sung tiêu chí tìm kiếm
         $blog->appends(['tuKhoa'=>$tuKhoa, 'tkChuDe'=>$cd]);
 
-        return view('blog.danhsach', ['blogs'=>$blog, 'bloger'=>$bloger, 'tuKhoa'=>$tuKhoa, 'chuDes'=>$chuDe, 'maCD'=>$cd]);
+        return view('Blog.DanhSach', ['blogs'=>$blog, 'bloger'=>$bloger, 'tuKhoa'=>$tuKhoa, 'chuDes'=>$chuDe, 'maCD'=>$cd]);
     }
 
 
@@ -49,7 +49,7 @@ class BlogController extends Controller
     {
         $chuDe = ChuDe::all();
 
-        return view('blog.blogadd', ['chuDes'=>$chuDe]);
+        return view('Blog.BlogAdd', ['chuDes'=>$chuDe]);
     }
 
     // hàm thực hiện thêm mới
@@ -73,7 +73,7 @@ class BlogController extends Controller
         $blog = new Blog($res->all());
         
         if ($validator->fails()) {
-            return view('blog.blogadd', ['blogs'=>$blog, 'chuDes'=>$chuDe])->withErrors($validator);
+            return view('Blog.BlogAdd', ['blogs'=>$blog, 'chuDes'=>$chuDe])->withErrors($validator);
         }
         else {
             $blog->NgayTao = now();
@@ -99,7 +99,7 @@ class BlogController extends Controller
                 else {
                     $class = 'alert-danger';
                     $thongBao = 'Upload file ảnh không thành công!';
-                    return view('blog.blogadd', ['blogs'=>$blog, 'chuDes'=>$chuDe, 'class'=>$class, 'thongBao'=>$thongBao]);
+                    return view('Blog.BlogAdd', ['blogs'=>$blog, 'chuDes'=>$chuDe, 'class'=>$class, 'thongBao'=>$thongBao]);
                 }
             }
         }
@@ -110,7 +110,7 @@ class BlogController extends Controller
     {
         $chuDe = ChuDe::all();
         $blog = Blog::find($id);
-        return view('blog.blogedit', ['blogs'=>$blog, 'chuDes'=>$chuDe]);
+        return view('Blog.BlogEdit', ['blogs'=>$blog, 'chuDes'=>$chuDe]);
     }
 
     // hàm xem chi tiết
@@ -119,7 +119,7 @@ class BlogController extends Controller
         $chuDe = ChuDe::all();
         $blog = Blog::find($id);
         $bloger = NguoiDung::all();
-        return view('blog.bloginfo', ['blogs'=>$blog, 'chuDes'=>$chuDe, 'bloger'=>$bloger]);
+        return view('Blog.BlogInfo', ['blogs'=>$blog, 'chuDes'=>$chuDe, 'bloger'=>$bloger]);
     }
 
     // cập nhật tình trạng sp, duyệt, ngày duyệt
@@ -156,7 +156,7 @@ class BlogController extends Controller
                 $blog->NgaySua = now();
                 $blog->save();
             
-            // return view('blog.bloginfo', ['thongBao'=>$thongBao, 'blogs'=>$blog, 'trangThais'=>$trangThai]);
+            // return view('Blog.BlogAnfo', ['thongBao'=>$thongBao, 'blogs'=>$blog, 'trangThais'=>$trangThai]);
                // return redirect()->back()->with(['class'=>'alert-success', 'thongBao' => 'Cập nhật thành công!']);
                return response()->json([
                    'message' => 'success'
@@ -202,7 +202,7 @@ class BlogController extends Controller
             else {
                 $class = 'alert-danger';
                 $thongBao = 'Upload file ảnh không thành công!';
-                return view('blog.blogedit', ['blogs'=>$blog, 'chuDes'=>$chuDe, 'class'=>$class, 'thongBao'=>$thongBao]);
+                return view('Blog.BlogEdit', ['blogs'=>$blog, 'chuDes'=>$chuDe, 'class'=>$class, 'thongBao'=>$thongBao]);
             }
         }
         

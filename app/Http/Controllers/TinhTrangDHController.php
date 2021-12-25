@@ -14,14 +14,14 @@ class TinhTrangDHController extends Controller
     {
         $trangThai = TrangThai::all();
         $tinhTrang = TinhTrangDonHang::all();
-        return view('trangthai.danhsach', ['tinhTrangs'=>$tinhTrang, 'trangThais'=>$trangThai]);
+        return view('TrangThai.DanhSach', ['tinhTrangs'=>$tinhTrang, 'trangThais'=>$trangThai]);
     }
 
 
     // hàm hiển thị form thêm mới
     public function hienThiThemMoi()
     {
-        return view('trangthai.trangthaiadd');
+        return view('TrangThai.TrangThaiAdd');
     }
 
     // hàm thực hiện thêm mới
@@ -41,7 +41,7 @@ class TinhTrangDHController extends Controller
 
         $tinhTrang = new TinhTrangDonHang($res->all());
         if ($validator->fails()) {
-            return view('trangthai.trangthaiadd', ['trangThais'=>$tinhTrang])->withErrors($validator);
+            return view('TrangThai.TrangThaiAdd', ['trangThais'=>$tinhTrang])->withErrors($validator);
         }
 
         $tinhTrang->save();
@@ -53,7 +53,7 @@ class TinhTrangDHController extends Controller
     public function chiTiet($id)
     {
         $tinhTrang = TinhTrangDonHang::find($id);
-        return view('trangthai.trangthaiedit', ['trangThais'=>$tinhTrang]);
+        return view('TrangThai.TrangThaiEdit', ['trangThais'=>$tinhTrang]);
     }
 
     // hàm sửa thông tin theo mã

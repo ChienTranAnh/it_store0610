@@ -13,14 +13,14 @@ class ChuDeController extends Controller
     public function danhSach()
     {
         $chuDe = ChuDe::all();
-        return view('chude.danhsach', ['chuDes'=>$chuDe]);
+        return view('ChuDe.DanhSach', ['chuDes'=>$chuDe]);
     }
 
 
     // hàm hiển thị form thêm mới
     public function hienThiThemMoi()
     {
-        return view('chude.chudeadd');
+        return view('ChuDe.ChuDeAdd');
     }
 
     // hàm thực hiện thêm mới
@@ -43,7 +43,7 @@ class ChuDeController extends Controller
 
         $chuDe = new ChuDe($res->all());
         if ($validator->fails()) {
-            return view('chude.chudeadd', ['chuDes'=>$chuDe])->withErrors($validator);
+            return view('ChuDe.ChuDeAdd', ['chuDes'=>$chuDe])->withErrors($validator);
         }
         
         $chuDe->save();
@@ -55,7 +55,7 @@ class ChuDeController extends Controller
     public function chiTiet($id)
     {
         $chuDe = ChuDe::find($id);
-        return view('chude.chudeedit', ['chuDes'=>$chuDe]);
+        return view('ChuDe.ChuDeEdit', ['chuDes'=>$chuDe]);
     }
 
     // hàm sửa thông tin theo mã

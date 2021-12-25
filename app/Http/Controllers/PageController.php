@@ -38,14 +38,14 @@ class PageController extends Controller
         // $collection = collect(Blog::where('DaDuyet',1)->get());
         $blog = $collection->sortByDesc('NgaySua')->take(3);
 // dd($blog);
-        return view('page.it_home', ['slide'=>$slide, 'sanPham'=>$sanPham, 'sPham'=>$sPham, 'new_sp'=>$new_sp, 'blog'=>$blog]);
+        return view('Page.it_home', ['slide'=>$slide, 'sanPham'=>$sanPham, 'sPham'=>$sPham, 'new_sp'=>$new_sp, 'blog'=>$blog]);
     }
 
 
     // giới thiệu
     public function getAbout()
     {
-        return view('page.it_error');
+        return view('Page.it_error');
     }
 
 
@@ -60,28 +60,28 @@ class PageController extends Controller
         
         $sanPham = $sanPham->paginate(9);
 
-        return view('page.it_shop', ['sanPham'=>$sanPham]);
+        return view('Page.it_shop', ['sanPham'=>$sanPham]);
     }
 
     // hàm lọc sản phẩm đang khuyến mại
     public function get_product_promotion()
     {
         $sanPham = SanPham::where('GiaKhuyenMai', '<>', 0)->where('DaDuyet', 1)->paginate(9);
-        return view('page.it_shop', ['sanPham'=>$sanPham]);
+        return view('Page.it_shop', ['sanPham'=>$sanPham]);
     }
 
     // hàm lọc sản phẩm theo danh mục
     public function get_product_type($id)
     {
         $sanPham = SanPham::where('DanhMucId', $id)->where('DaDuyet', 1)->paginate(9);
-        return view('page.it_shop', ['sanPham'=>$sanPham]);
+        return view('Page.it_shop', ['sanPham'=>$sanPham]);
     }
 
     // hàm lọc sản phẩm theo thương hiệu
     public function get_product_brand($id)
     {
         $sanPham = SanPham::where('ThuongHieuId', $id)->where('DaDuyet', 1)->paginate(9);
-        return view('page.it_shop', ['sanPham'=>$sanPham]);
+        return view('Page.it_shop', ['sanPham'=>$sanPham]);
     }
 
     // hàm lấy thông tin chi tiết 1 sản phẩm và các sản phẩm cùng thương hiệu + danh mục
@@ -97,14 +97,14 @@ class PageController extends Controller
         $res = $sanPham->DanhMucId;
         $sps = sanpham::where('DanhMucId',$res)->where('DaDuyet', 1)->take(3)->get();
 
-        return view('page.it_shop_detail', ['sp'=>$sp, 'sps'=>$sps, 'sanPham'=>$sanPham, 'trangThai'=>$trangThai]);
+        return view('Page.it_shop_detail', ['sp'=>$sp, 'sps'=>$sps, 'sanPham'=>$sanPham, 'trangThai'=>$trangThai]);
     }
 
 
     // hàm view đến trang liên hệ
     public function getContact()
     {
-        return view('page.it_contact');
+        return view('Page.it_contact');
     }
 
 
@@ -120,7 +120,7 @@ class PageController extends Controller
         })->where('DaDuyet',1);
         $blog = $blog->paginate(3);
 
-        return view('page.it_blog', ['blog'=>$blog, 'bloger'=>$bloger, 'tuKhoa'=>$tuKhoa]);
+        return view('Page.it_blog', ['blog'=>$blog, 'bloger'=>$bloger, 'tuKhoa'=>$tuKhoa]);
     }
 
     // hàm chi tiết bài viết
@@ -131,7 +131,7 @@ class PageController extends Controller
         $blog->LuotXem++;
         $blog->save();
 
-        return view('page.it_blog_detail', ['blog'=>$blog, 'bloger'=>$bloger]);
+        return view('Page.it_blog_detail', ['blog'=>$blog, 'bloger'=>$bloger]);
     }
 
     // hàm hiển thị blog theo chủ đề
@@ -140,7 +140,7 @@ class PageController extends Controller
         $bloger = NguoiDung::where('VaiTroId',"VIEWER")->get();
         $blog = Blog::where('ChuDeId',$id)->where('DaDuyet', 1)->paginate(3);
 
-        return view('/page.it_blog', ['blog'=>$blog, 'bloger'=>$bloger]);
+        return view('Page.it_blog', ['blog'=>$blog, 'bloger'=>$bloger]);
     }
 
 
@@ -158,7 +158,7 @@ class PageController extends Controller
             $res->session()->put('Cart', $newCart);
         }
 
-        return view('page.cart.cart_cache');
+        return view('Page.cart.cart_cache');
     }
 
     // hàm xóa sp trong giỏ hàng
@@ -174,7 +174,7 @@ class PageController extends Controller
             Session::forget('Cart');
         }
 
-        return view('page.cart.cart_cache');
+        return view('Page.cart.cart_cache');
     }
 
     // hàm xóa sp trong list cart
@@ -190,7 +190,7 @@ class PageController extends Controller
             Session::forget('Cart');
         }
 
-        return view('page.cart.list_cart');
+        return view('Page.cart.list_cart');
     }
 
     // hàm cập nhật danh sách giỏ hàng
@@ -202,21 +202,21 @@ class PageController extends Controller
         
         Session::put('Cart', $newCart);
         
-        return view('page.cart.list_cart');
+        return view('Page.cart.list_cart');
     }
 
     // hàm hiển thị giỏ hàng
     public function list_cart()
     {
         $trangThai = TrangThai::all();
-        return view('page.it_cart',['trangThai'=>$trangThai]);
+        return view('Page.it_cart',['trangThai'=>$trangThai]);
     }
 
     // hàm hiển thị đặt hàng
     public function get_view_order()
     {
         $new_cus="";
-        return view('page.it_checkout', ['new_cus'=>$new_cus]);
+        return view('Page.it_checkout', ['new_cus'=>$new_cus]);
     }
 
     // hàm đặt hàng
@@ -248,7 +248,7 @@ class PageController extends Controller
         $new_cus = new KhachHang($res->all());
         
         if ($validator->fails()) {
-            return view('page.it_checkout',['new_cus'=>$new_cus])->withErrors($validator);
+            return view('Page.it_checkout',['new_cus'=>$new_cus])->withErrors($validator);
         }
         else
         {
@@ -307,7 +307,7 @@ class PageController extends Controller
                 Session::forget('Cart');
                 $class = 'alert-success';
                 $thongBao = 'Đặt hàng thành công!';
-                return view('page.it_checkout', ['class'=>$class, 'thongBao'=>$thongBao]);
+                return view('Page.it_checkout', ['class'=>$class, 'thongBao'=>$thongBao]);
             }
         }
     }
@@ -343,7 +343,7 @@ class PageController extends Controller
         $sanPham = $sanPham->sortByDesc('NgayTao');
         $blog = $blog->sortByDesc('NgayTao');
 
-        return view('dashboard', ['khachHang'=>$khachHang, 'donHang'=>$donHang, 'sanPham'=>$sanPham, 'danhMuc'=>$danhMuc, 'thuongHieu'=>$thuongHieu, 'blog'=>$blog, 'chuDe'=>$chuDe, 'user'=>$user]);
+        return view('Dashboard', ['khachHang'=>$khachHang, 'donHang'=>$donHang, 'sanPham'=>$sanPham, 'danhMuc'=>$danhMuc, 'thuongHieu'=>$thuongHieu, 'blog'=>$blog, 'chuDe'=>$chuDe, 'user'=>$user]);
     }
 
     public function test()

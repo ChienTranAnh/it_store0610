@@ -51,7 +51,7 @@ class SanPhamController extends Controller
         $sanPham = $sanPham->appends(['tuKhoa'=>$tuKhoa, 'tkDanhMuc'=>$dm, 'tkThuongHieu'=>$th]);
 
 
-        return view('sanpham.danhsach', ['sanPhams'=>$sanPham, 'tuKhoa'=>$tuKhoa, 'danhMucs'=>$danhMuc, 'thuongHieus'=>$thuongHieu, 'trangThais'=>$trangThai, 'maDM'=>$dm, 'maTH'=>$th]);
+        return view('SanPham.DanhSach', ['sanPhams'=>$sanPham, 'tuKhoa'=>$tuKhoa, 'danhMucs'=>$danhMuc, 'thuongHieus'=>$thuongHieu, 'trangThais'=>$trangThai, 'maDM'=>$dm, 'maTH'=>$th]);
     }
 
 
@@ -62,7 +62,7 @@ class SanPhamController extends Controller
         $thuongHieu = ThuongHieu::all();
         $trangThai = TrangThai::all();
         
-        return view('sanpham.sanphamadd', ['danhMucs'=>$danhMuc, 'thuongHieus'=>$thuongHieu, 'trangThais'=>$trangThai]);
+        return view('SanPham.SanPhamAdd', ['danhMucs'=>$danhMuc, 'thuongHieus'=>$thuongHieu, 'trangThais'=>$trangThai]);
     }
 
     // hàm thực hiện thêm mới
@@ -91,7 +91,7 @@ class SanPhamController extends Controller
         $sanPham = new SanPham($res->all());
         
         if ($validator->fails()) {
-            return view('sanpham.sanphamadd', ['sanPhams'=>$sanPham, 'danhMucs'=>$danhMuc, 'thuongHieus'=>$thuongHieu, 'trangThais'=>$trangThai])->withErrors($validator);
+            return view('SanPham.SanPhamAdd', ['sanPhams'=>$sanPham, 'danhMucs'=>$danhMuc, 'thuongHieus'=>$thuongHieu, 'trangThais'=>$trangThai])->withErrors($validator);
         }
         else {
             $sanPham->NgayTao = now();
@@ -122,7 +122,7 @@ class SanPhamController extends Controller
                 else {
                     $class = 'alert-danger';
                     $thongBao = 'Upload file ảnh không thành công!';
-                    return view('sanpham.sanphamadd', ['sanPhams'=>$sanPham, 'danhMucs'=>$danhMuc, 'thuongHieus'=>$thuongHieu, 'trangThais'=>$trangThai, 'class'=>$class, 'thongBao'=>$thongBao]);
+                    return view('SanPham.SanPhamAdd', ['sanPhams'=>$sanPham, 'danhMucs'=>$danhMuc, 'thuongHieus'=>$thuongHieu, 'trangThais'=>$trangThai, 'class'=>$class, 'thongBao'=>$thongBao]);
                 }
             }
         }
@@ -134,7 +134,7 @@ class SanPhamController extends Controller
         $danhMuc = DanhMuc::all();
         $thuongHieu = ThuongHieu::all();
         $sanPham = SanPham::find($id);
-        return view('sanpham.sanphamedit', ['sanPhams'=>$sanPham, 'danhMucs'=>$danhMuc, 'thuongHieus'=>$thuongHieu]);
+        return view('SanPham.SanPhamEdit', ['sanPhams'=>$sanPham, 'danhMucs'=>$danhMuc, 'thuongHieus'=>$thuongHieu]);
     }
 
     // hàm xem chi tiết
@@ -144,7 +144,7 @@ class SanPhamController extends Controller
         $thuongHieu = ThuongHieu::all();
         $trangThai = TrangThai::all();
         $sanPham = SanPham::find($id);
-        return view('sanpham.sanphaminfo', ['sanPhams'=>$sanPham, 'danhMucs'=>$danhMuc, 'thuongHieus'=>$thuongHieu, 'trangThais'=>$trangThai]);
+        return view('SanPham.SanPhamInfo', ['sanPhams'=>$sanPham, 'danhMucs'=>$danhMuc, 'thuongHieus'=>$thuongHieu, 'trangThais'=>$trangThai]);
     }
 
     // cập nhật tình trạng sp, duyệt, ngày duyệt
@@ -174,7 +174,7 @@ class SanPhamController extends Controller
         $sanPham->NgaySua = now();
         $sanPham->save();
         
-        // return view('sanpham.sanphaminfo', ['thongBao'=>$thongBao, 'sanPhams'=>$sanPham, 'trangThais'=>$trangThai]);
+        // return view('SanPham.SanPhaminfo', ['thongBao'=>$thongBao, 'sanPhams'=>$sanPham, 'trangThais'=>$trangThai]);
         return redirect()->back()->with(['class'=>'alert-success', 'thongBao'=>'Cập nhật thành công!']);
     }
 
@@ -220,7 +220,7 @@ class SanPhamController extends Controller
             else {
                 $class = 'alert-danger';
                 $thongBao = 'Upload file ảnh không thành công!';
-                return view('sanpham.sanphamedit', ['sanPhams'=>$sanPham, 'danhMucs'=>$danhMuc, 'thuongHieus'=>$thuongHieu, 'trangThais'=>$trangThai, 'class'=>$class, 'thongBao'=>$thongBao]);
+                return view('SanPham.SanPhamEdit', ['sanPhams'=>$sanPham, 'danhMucs'=>$danhMuc, 'thuongHieus'=>$thuongHieu, 'trangThais'=>$trangThai, 'class'=>$class, 'thongBao'=>$thongBao]);
             }
         }
         

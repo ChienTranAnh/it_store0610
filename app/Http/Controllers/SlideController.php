@@ -14,14 +14,14 @@ class SlideController extends Controller
     public function danhSach()
     {
         $slide = Slide::all();
-        return view('slide.danhsach', ['slides'=>$slide]);
+        return view('Slide.DanhSach', ['slides'=>$slide]);
     }
 
 
     // hàm hiển thị form thêm mới
     public function hienThiThemMoi()
     {
-        return view('slide.slideadd');
+        return view('Slide.SlideAdd');
     }
 
     // hàm thực hiện thêm mới
@@ -40,7 +40,7 @@ class SlideController extends Controller
         $slide = new Slide($res->all());
 
         if ($validator->fails()) {
-            return view('slide.slideadd', ['slides'=>$slide])->withErrors($validator);
+            return view('Slide.SlideAdd', ['slides'=>$slide])->withErrors($validator);
         }
 
         // $photos = $res->images;
@@ -66,7 +66,7 @@ class SlideController extends Controller
     public function chiTiet($id)
     {
         $slide = Slide::find($id);
-        return view('slide.slideedit', ['slides'=>$slide]);
+        return view('Slide.SlideEdit', ['slides'=>$slide]);
     }
 
     // hàm sửa thông tin theo mã

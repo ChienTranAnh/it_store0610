@@ -13,14 +13,14 @@ class VaiTroController extends Controller
     public function danhSach()
     {
         $vaiTro = VaiTro::all();
-        return view('vaitro.danhsach', ['vaiTros'=>$vaiTro]);
+        return view('VaiTro.DanhSach', ['vaiTros'=>$vaiTro]);
     }
 
 
     // hàm hiển thị form thêm mới
     public function hienThiThemMoi()
     {
-        return view('vaitro.vaitroadd');
+        return view('VaiTro.VaiTroAdd');
     }
 
     // hàm thực hiện thêm mới
@@ -43,7 +43,7 @@ class VaiTroController extends Controller
 
         $vaiTro = new VaiTro($res->all());
         if ($validator->fails()) {
-            return view('vaitro.vaitroadd', ['vaiTros'=>$vaiTro])->withErrors($validator);
+            return view('VaiTro.VaiTroAdd', ['vaiTros'=>$vaiTro])->withErrors($validator);
         }
         
         $vaiTro->save();
@@ -55,7 +55,7 @@ class VaiTroController extends Controller
     public function chiTiet($id)
     {
         $vaiTro = VaiTro::find($id);
-        return view('vaitro.vaitroedit', ['vaiTros'=>$vaiTro]);
+        return view('VaiTro.VaiTroEdit', ['vaiTros'=>$vaiTro]);
     }
 
     // hàm sửa thông tin theo mã
