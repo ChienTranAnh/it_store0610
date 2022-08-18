@@ -39,6 +39,7 @@ route::post('/dangnhap', [NguoiDungController::class,'postLogin']);
 route::get('/dangxuat', [NguoiDungController::class,'getLogout']);
 
 // giao diện bên ngoài
+Route::get('/', [PageController::class, 'getIndex']);
 Route::get('/trangchu', [PageController::class, 'getIndex']);
 Route::get('/gioithieu', [PageController::class, 'getAbout']);
 
@@ -74,7 +75,7 @@ Route::post('/register', [KhachHangController::class, 'register']);
 // phần quản trị
 Route::group(['middleware'=>['checkDangNhap']], function() {
 
-    Route::get('/', [PageController::class, 'dashboard']);
+    Route::get('/admin', [PageController::class, 'dashboard']);
     Route::get('/dashboard', [PageController::class, 'dashboard']);
 
     route::get('/error', function() {
@@ -152,7 +153,7 @@ Route::group(['middleware'=>['checkDangNhap']], function() {
 
         // chức năng dành cho kiểm duyệt viên
         route::group(['middleware'=>['checkChecker']], function() {
-        
+
             route::post('/sanpham/chitiet/{id}', [SanPhamController::class, 'capNhat']);// sản phẩm
 
             // route::post('/blog/chitiet/{id}', [BlogController::class, 'capNhat']);// blog
@@ -169,14 +170,14 @@ Route::group(['middleware'=>['checkDangNhap']], function() {
             route::get('/tinhtrang/sua/{id}', [TinhTrangDHController::class, 'chiTiet']);
             route::post('/tinhtrang/sua/{id}', [TinhTrangDHController::class, 'capNhatThongTin']);
             route::get('/tinhtrang/xoa/{id}', [TinhTrangDHController::class, 'xoa']);
-        
+
             // trạng thái
             route::get('/trangthai/them-moi', [TrangThaiController::class, 'hienThiThemMoi']);
             route::post('/trangthai/them-moi', [TrangThaiController::class, 'themMoi']);
             route::get('/trangthai/sua/{id}', [TrangThaiController::class, 'chiTiet']);
             route::post('/trangthai/sua/{id}', [TrangThaiController::class, 'capNhatThongTin']);
             route::get('/trangthai/xoa/{id}', [TrangThaiController::class, 'xoa']);
-        
+
             // chủ đề
             route::get('/chude/them-moi', [ChuDeController::class, 'hienThiThemMoi']);
             route::post('/chude/them-moi', [ChuDeController::class, 'themMoi']);
