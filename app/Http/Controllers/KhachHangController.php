@@ -82,7 +82,7 @@ class KhachHangController extends Controller
         $res->session()->flash('message', 'Bạn cần phải nhập đầy đủ thông tin');
 
         $khachHang = new KhachHang($res->all());
-        
+
         if ($validator->fails()) {
             return view('page.it_register',['khachHangs'=>$khachHang, 'thongBao'=>$thongBao])->withErrors($validator);
         }
@@ -113,7 +113,7 @@ class KhachHangController extends Controller
         $khachHang->NgaySua = now();
 
         $khachHang->save();
-        
+
         return redirect('/khachhang/danhsach');
     }
 
@@ -140,7 +140,7 @@ class KhachHangController extends Controller
         } else {
             $class = 'alert-danger';
             $thongBao = 'Opps! Không tồn tại email rồi!';
-            
+
             return redirect('checkout', ['new_cus'=>$new_cus, 'class'=>$class, 'thongBao'=>$thongBao]);
         }
     }
