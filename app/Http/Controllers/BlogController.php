@@ -71,7 +71,7 @@ class BlogController extends Controller
         $res->session()->flash('message', 'Bạn cần phải nhập đầy đủ thông tin');
 
         $blog = new Blog($res->all());
-        
+
         if ($validator->fails()) {
             return view('Blog.BlogAdd', ['blogs'=>$blog, 'chuDes'=>$chuDe])->withErrors($validator);
         }
@@ -79,7 +79,7 @@ class BlogController extends Controller
             $blog->NgayTao = now();
             $blog->BloggerId = session('user')->Id;
             $blog->DaDuyet = 0;
-            
+
             $anh = $res->AnhBV;
             if($res->hasFile('AnhBV'))
             {
@@ -92,7 +92,7 @@ class BlogController extends Controller
                 {
                     $anh->storeAs('blogs', $fileName);
                     $blog->Anh = $fileName;
-// dd($blog);
+
                     $blog->save();
                     return redirect('/blog/danhsach');
                 }
@@ -152,10 +152,10 @@ class BlogController extends Controller
                 //     $blog->NgayDuyet = null;
                 // }
                 $blog->DaDuyet = 1;
-                
+
                 $blog->NgaySua = now();
                 $blog->save();
-            
+
             // return view('Blog.BlogAnfo', ['thongBao'=>$thongBao, 'blogs'=>$blog, 'trangThais'=>$trangThai]);
                // return redirect()->back()->with(['class'=>'alert-success', 'thongBao' => 'Cập nhật thành công!']);
                return response()->json([
@@ -195,7 +195,7 @@ class BlogController extends Controller
                 storage::delete('/blogs/' . $blog->Anh);
                 $anh->storeAs('blogs', $fileName);
                 $blog->Anh = $fileName;
-        
+
                 $blog->save();
                 return redirect('/blog/danhsach');
             }
@@ -205,7 +205,7 @@ class BlogController extends Controller
                 return view('Blog.BlogEdit', ['blogs'=>$blog, 'chuDes'=>$chuDe, 'class'=>$class, 'thongBao'=>$thongBao]);
             }
         }
-        
+
         $blog->save();
         return redirect('/blog/danhsach');
     }
