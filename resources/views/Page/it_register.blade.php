@@ -82,6 +82,7 @@
                                             <div class="field col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                 <textarea style="min-height: 100px;" class="field_custom" name="DiaChi" placeholder="Địa chỉ">{{$khachHangs->DiaChi??''}}</textarea>
                                             </div>
+                                            <div class="center">{!! NoCaptcha::display() !!}</div>
                                             <div class="center">
                                                 <button type="submit" class="btn main_bt"><i class="fas fa-check-circle"></i> Đăng ký</button>
                                             </div>
@@ -95,10 +96,12 @@
             </div>
         </div>
     </div>
+    {!! NoCaptcha::renderJS() !!}
+
     {{-- bootstrap --}}
     {{-- <link rel="stylesheet prefetch" href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css">
     <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script> --}}
-    
+
     {{-- jQuery --}}
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
