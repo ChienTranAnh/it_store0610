@@ -24,7 +24,7 @@ class SanPhamController extends Controller
         $tuKhoa = $res->input('tuKhoa');
         $dm = $res->input('tkDanhMuc');
         $th = $res->input('tkThuongHieu');
-        
+
         // echo "Từ khóa: " . $tuKhoa . "</br>";
         // echo "Danh mục: " . $dm . "</br>";
         // echo "Thương hiệu: " . $th;
@@ -44,7 +44,7 @@ class SanPhamController extends Controller
         {
             $sanPham = $sanPham->where('ThuongHieuId', $th);
         }
-        
+
         // $sanPham->dump();
         $sanPham = $sanPham->orderBy('NgayTao', 'desc')->paginate(10);
         // bổ sung tiêu chí tìm kiếm
@@ -61,7 +61,7 @@ class SanPhamController extends Controller
         $danhMuc = DanhMuc::all();
         $thuongHieu = ThuongHieu::all();
         $trangThai = TrangThai::all();
-        
+
         return view('SanPham.SanPhamAdd', ['danhMucs'=>$danhMuc, 'thuongHieus'=>$thuongHieu, 'trangThais'=>$trangThai]);
     }
 
@@ -89,7 +89,7 @@ class SanPhamController extends Controller
         $res->session()->flash('message', 'Bạn cần phải nhập đầy đủ thông tin');
 
         $sanPham = new SanPham($res->all());
-        
+
         if ($validator->fails()) {
             return view('SanPham.SanPhamAdd', ['sanPhams'=>$sanPham, 'danhMucs'=>$danhMuc, 'thuongHieus'=>$thuongHieu, 'trangThais'=>$trangThai])->withErrors($validator);
         }
@@ -170,10 +170,10 @@ class SanPhamController extends Controller
             $sanPham->DaDuyet = $res->input('DaDuyet');
             $sanPham->NgayDuyet = now();
         }
-        
+
         $sanPham->NgaySua = now();
         $sanPham->save();
-        
+
         // return view('SanPham.SanPhaminfo', ['thongBao'=>$thongBao, 'sanPhams'=>$sanPham, 'trangThais'=>$trangThai]);
         return redirect()->back()->with(['class'=>'alert-success', 'thongBao'=>'Cập nhật thành công!']);
     }
@@ -213,7 +213,7 @@ class SanPhamController extends Controller
                 storage::delete('/images/' . $sanPham->AnhSanPham);
                 $anh->storeAs('images', $fileName);
                 $sanPham->AnhSanPham = $fileName;
-        
+
                 $sanPham->save();
                 return redirect('/sanpham/danhsach');
             }
@@ -223,7 +223,7 @@ class SanPhamController extends Controller
                 return view('SanPham.SanPhamEdit', ['sanPhams'=>$sanPham, 'danhMucs'=>$danhMuc, 'thuongHieus'=>$thuongHieu, 'trangThais'=>$trangThai, 'class'=>$class, 'thongBao'=>$thongBao]);
             }
         }
-        
+
         $sanPham->save();
         return redirect('/sanpham/danhsach');
     }
