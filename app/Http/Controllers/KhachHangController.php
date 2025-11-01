@@ -55,16 +55,19 @@ class KhachHangController extends Controller
         $validator = Validator::make($res->all(),
             [
                 'HoTen'=>'required|min:5',
+                'NgaySinh'=>'required',
                 'GioiTinh'=>'required',
                 'DienThoai'=>'required',
                 'Email'=>'required',
                 'UserName'=>'required|min:5|unique:khachhang,UserName',
                 'MatKhau'=>'required|min:6|max:25',
-                'MatKhau_return'=>'required|same:MatKhau'
+                'MatKhau_return'=>'required|same:MatKhau',
+                'g-recaptcha-response' => 'required|captcha'
             ],
             [
                 'HoTen.required'=>'Bạn phải nhập họ tên',
                 'HoTen.min'=>'Bạn phải nhập họ tên tối thiểu 5 kí tự',
+                'NgaySinh.required'=>'Bạn phải nhập ngày sinh',
                 'GioiTinh.required'=>'Bạn phải nhập giới tính',
                 'DienThoai.required'=>'Bạn phải nhập số điện thoại',
                 'Email.required'=>'Bạn phải nhập địa chỉ email',
@@ -75,7 +78,9 @@ class KhachHangController extends Controller
                 'MatKhau.min'=>'Bạn phải nhập mật khẩu tối thiểu 6 ký tự',
                 'MatKhau.max'=>'Bạn phải nhập mật khẩu tối đa 25 ký tự',
                 'MatKhau_return.required'=>'Bạn phải nhập trường nhập lại mật khẩu',
-                'MatKhau_return.same'=>'Mật khẩu không khớp'
+                'MatKhau_return.same'=>'Mật khẩu không khớp',
+                'g-recaptcha-response.required' => 'Bạn phải xác thực Captcha',
+                'g-recaptcha-response.captcha' => 'Xác thực Captcha lỗi',
             ]
         );
 

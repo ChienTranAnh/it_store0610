@@ -10,8 +10,8 @@
 	3.  BASIC
     4.  LOADER
 	5.  HEADER
-	      - Header Top 
-	      - Menu 
+	      - Header Top
+	      - Menu
 	      - Search Bar
 	      - Side Menu
 		  - Fix Header
@@ -30,13 +30,13 @@
 	11. INNER PAGE BANNER
 	12. SIDEBAR
 	     - Sidebar Search
-	13. BLOG	
-         - Blog Detail	
+	13. BLOG
+         - Blog Detail
 	14. CASE STUDIES
 	15. SHOP
     16. FOOTER
 	17. CUSTOM
-		
+
 	-------------------------------------------------------------------*/
 
 
@@ -2191,6 +2191,7 @@ select.field_custom, input.field_custom {
 	line-height: normal;
 	border-radius: 0px;
 	margin-bottom: 10px;
+	margin-top: 10px;
 	font-size: 14px;
 	color: #737373;
 }
@@ -2204,6 +2205,7 @@ textarea.field_custom {
 	line-height: normal;
 	border-radius: 0px;
 	margin-bottom: 10px;
+	margin-top: 10px;
 	font-size: 14px;
 	color: #737373;
 }
@@ -2533,7 +2535,7 @@ span.skill {
 	top:-3px;
 	right:-3px
 }
-	
+
 .ribbon {
 	color:#fff;
 	text-align:center;
@@ -3242,7 +3244,7 @@ span.skill {
 
 
 /*------------------------------------------------------------------
-	17. TESTMONIAL 
+	17. TESTMONIAL
 	-------------------------------------------------------------------*/
 
 .testmonial_section {
@@ -4860,3 +4862,4 @@ footer ul.social_icons {
 	margin-top: 35px;
 }
 
+.font-color-red {color: red;}
