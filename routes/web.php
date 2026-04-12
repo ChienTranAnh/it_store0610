@@ -34,7 +34,7 @@ Route::get('/index', function () {
     return view('welcome');
 });
 
-route::get('/dangnhap', [NguoiDungController::class,'getLogin']);
+route::get('/dangnhap', [NguoiDungController::class,'getLogin'])->name('login');
 route::post('/dangnhap', [NguoiDungController::class,'postLogin']);
 route::get('/dangxuat', [NguoiDungController::class,'getLogout']);
 

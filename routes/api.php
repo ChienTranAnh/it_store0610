@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
+use Symfony\Component\HttpFoundation\Response;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('/login', [UserController::class, 'login']);
+
+Route::prefix('users')->group(function () {
+    require_once __DIR__ . '/api/users.php';
+});
+
+// define routes does not defined
+Route::fallback(function () {
+    return response()->json([
+        'success' => false,
+        'message' => 'Route Not Found!',
+        'code' => Response::HTTP_NOT_FOUND
+    ], Response::HTTP_NOT_FOUND);
 });
