@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class UserController extends Controller
 {
@@ -18,6 +19,23 @@ class UserController extends Controller
      */
     public function login(Request $request)
     {
+        // check user was logged in?
+        $bearerToken = $request->bearerToken();
+        if ($bearerToken !== 'null') {
+            $token = explode('|', $bearerToken)[1];
+            $checkToken = PersonalAccessToken::findToken($token);
+            if ($checkToken) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'You were logged in!',
+                    'code' => JsonResponse::HTTP_CONFLICT,
+                    'user' => User::where('id', $checkToken->tokenable_id)->first(),
+                    'token' => $bearerToken,
+                    'token_type' => 'Bearer',
+                ], JsonResponse::HTTP_CONFLICT);
+            }
+        }
+
         $request->validate([
             'username' => 'required|string',
             'password' => 'required|string'
