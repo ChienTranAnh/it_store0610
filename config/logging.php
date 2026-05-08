@@ -41,6 +41,20 @@ return [
             'ignore_exceptions' => false,
         ],
 
+        'api' => [
+            'driver' => env('APP_ENV') == 'local' ? 'single' : 'daily',
+            'path' => storage_path('logs/api.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => 30,
+        ],
+
+        'query_log' => [
+            'driver' => env('APP_ENV') == 'local' ? 'single' : 'daily',
+            'path' => storage_path('logs/query.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => 30,
+        ],
+
         'single' => [
             'driver' => 'single',
             'path' => storage_path('logs/laravel.log'),

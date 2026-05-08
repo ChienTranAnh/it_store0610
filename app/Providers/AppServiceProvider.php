@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 
 use Illuminate\Support\Facades\View;
@@ -85,6 +87,17 @@ class AppServiceProvider extends ServiceProvider
             $collection = collect(Blog::where('ChuDeId',"REVIEW")->where('DaDuyet',1)->get());
             $blog = $collection->sortByDesc('NgayDuyet')->take(3);
             $view->with('blog',$blog);
+        });
+
+        // ghi log all truy vấn
+        DB::listen(function($query) {
+            $data = [
+                'sql' => $query->sql,
+                'bindings' => $query->bindings,
+                'time' => $query->time . 'ms',
+            ];
+
+            Log::channel('query_log')->debug(json_encode($data));
         });
     }
 }
