@@ -4,13 +4,20 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Laravel\Sanctum\PersonalAccessToken;
 
 class UserController extends Controller
 {
+    protected $userService;
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
     /**
      * login
      *
@@ -19,21 +26,15 @@ class UserController extends Controller
      */
     public function login(Request $request)
     {
-        // check user was logged in?
-        $bearerToken = $request->bearerToken();
-        if ($bearerToken !== 'null') {
-            $token = explode('|', $bearerToken)[1];
-            $checkToken = PersonalAccessToken::findToken($token);
-            if ($checkToken) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'You were logged in!',
-                    'code' => JsonResponse::HTTP_CONFLICT,
-                    'user' => User::where('id', $checkToken->tokenable_id)->first(),
-                    'token' => $bearerToken,
-                    'token_type' => 'Bearer',
-                ], JsonResponse::HTTP_CONFLICT);
-            }
+        if (Auth::guard('sanctum')->check()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'You were logged in!',
+                'code' => JsonResponse::HTTP_CONFLICT,
+                'user' => Auth::guard('sanctum')->user(),
+                'token' => $request->bearerToken(),
+                'token_type' => 'Bearer',
+            ], JsonResponse::HTTP_CONFLICT);
         }
 
         $request->validate([
@@ -41,22 +42,21 @@ class UserController extends Controller
             'password' => 'required|string'
         ]);
 
-        $user = User::where('username', $request->username)->first();
-        if (!$user) {
-            return $this->notFound('User Not Found!');
-        }
-        if (!Hash::check($request->password, $user->password)) {
+        $result = $this->userService->login($request->username, $request->password);
+        if ($result && $result['error']) {
+            if ($result['type'] === 'username') {
+                return $this->notFound('User Not Found!');
+            }
+
             return $this->failed('Password is incorrect!', JsonResponse::HTTP_UNAUTHORIZED);
         }
-
-        $token = $user->createToken('api_token')->plainTextToken;
 
         return response()->json([
             'success' => true,
             'message' => 'Login successful!',
             'code' => JsonResponse::HTTP_OK,
-            'user' => $user,
-            'token' => $token,
+            'user' => $result['user'],
+            'token' => $result['token'],
             'token_type' => 'Bearer',
         ], JsonResponse::HTTP_OK);
     }
@@ -68,7 +68,18 @@ class UserController extends Controller
      */
     public function index()
     {
-        return $this->success(User::all());
+        try {
+            $users = $this->userService->allUsers();
+            if (!$users) {
+                return $this->success([], 'Don\'t any Users!');
+            }
+
+            return $this->success($users->toArray());
+        } catch (\PDOException $pdoException) {
+            return $this->failed($pdoException->getMessage());
+        } catch (\Exception $e) {
+            return $this->failed($e->getMessage());
+        }
     }
 
     /**
@@ -123,12 +134,18 @@ class UserController extends Controller
      */
     public function showUserDetail($id)
     {
-        $user = User::where('id', $id)->first();
-        if (!$user) {
-            return $this->notFound('User not found');
-        }
+        try {
+            $user = $this->userService->userDetail($id);
+            if (!$user) {
+                return $this->notFound('User not found');
+            }
 
-        return $this->success($user);
+            return $this->success($user);
+        } catch (\PDOException $pdoException) {
+            return $this->failed($pdoException->getMessage());
+        } catch (\Exception $e) {
+            return $this->failed($e->getMessage());
+        }
     }
 
     /**
@@ -151,30 +168,42 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::where('id', $id)->first();
-        if (!$user) {
-            return $this->notFound('User not found');
-        }
+        try {
+            $user = $this->userService->userDetail($id);
+            if (!$user) {
+                return $this->notFound('User not found');
+            }
 
-        if (!$user->delete()) {
-            return $this->failed('Unable to delete user.');
-        }
+            if (!$user->delete()) {
+                return $this->failed('Unable to delete user.');
+            }
 
-        return $this->success($user, 'User deleted successfully');
+            return $this->success($user, 'User deleted successfully');
+        } catch (\PDOException $pdoException) {
+            return $this->failed($pdoException->getMessage());
+        } catch (\Exception $e) {
+            return $this->failed($e->getMessage());
+        }
     }
 
     public function destroyPermanently($id)
     {
-        $user = User::where('id', $id)->first();
-        if (!$user) {
-            return $this->notFound('User not found');
-        }
+        try {
+            $user = $this->userService->userDetail($id);
+            if (!$user) {
+                return $this->notFound('User not found');
+            }
 
-        if (!$user->forceDelete()) {
-            return $this->failed('Unable to delete user.');
-        }
+            if (!$user->forceDelete()) {
+                return $this->failed('Unable to delete user.');
+            }
 
-        return $this->success($user, 'User deleted successfully');
+            return $this->success($user, 'User deleted successfully');
+        } catch (\PDOException $pdoException) {
+            return $this->failed($pdoException->getMessage());
+        } catch (\Exception $e) {
+            return $this->failed($e->getMessage());
+        }
     }
 
     /**
