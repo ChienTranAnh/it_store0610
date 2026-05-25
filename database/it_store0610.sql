@@ -11,7 +11,7 @@
  Target Server Version : 80043 (8.0.43)
  File Encoding         : 65001
 
- Date: 23/04/2026 11:42:18
+ Date: 08/05/2026 11:04:05
 */
 
 SET NAMES utf8mb4;
@@ -46,6 +46,33 @@ CREATE TABLE `binhluan` (
 -- Records of binhluan
 -- ----------------------------
 BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Table structure for categories
+-- ----------------------------
+DROP TABLE IF EXISTS `categories`;
+CREATE TABLE `categories` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `abb_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Abbreviation categories name',
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'categories name',
+  `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `categories_abb_name_unique` (`abb_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ----------------------------
+-- Records of categories
+-- ----------------------------
+BEGIN;
+INSERT INTO `categories` (`id`, `abb_name`, `name`, `description`, `deleted_at`, `created_at`, `updated_at`) VALUES (1, 'odien-thoai', 'Ođiện thoại', 'các sản phẩm điện thoại siêu hot trên thị trường', '2026-04-29 17:56:33', '2026-04-25 15:19:10', '2026-04-29 17:56:33');
+INSERT INTO `categories` (`id`, `abb_name`, `name`, `description`, `deleted_at`, `created_at`, `updated_at`) VALUES (2, 'dien-thoai', 'Điện thoại', 'các sản phẩm điện thoại siêu hot trên thị trường', NULL, '2026-04-25 15:19:14', '2026-04-25 15:19:14');
+INSERT INTO `categories` (`id`, `abb_name`, `name`, `description`, `deleted_at`, `created_at`, `updated_at`) VALUES (3, 'man-hinh', 'điện thoại', 'các sản phẩm điện thoại siêu hot trên thị trường', NULL, '2026-04-25 22:40:16', '2026-05-07 09:36:12');
+INSERT INTO `categories` (`id`, `abb_name`, `name`, `description`, `deleted_at`, `created_at`, `updated_at`) VALUES (4, 'man-hinh-1', 'Màn hình', 'các sản phẩm màn hình mớui trên thị trường', NULL, '2026-04-25 22:43:48', '2026-04-25 22:43:48');
+INSERT INTO `categories` (`id`, `abb_name`, `name`, `description`, `deleted_at`, `created_at`, `updated_at`) VALUES (5, 'man-hinh-2', 'Màn hình', 'các sản phẩm màn hình mớui trên thị trường', NULL, '2026-04-25 22:43:58', '2026-04-25 22:43:58');
 COMMIT;
 
 -- ----------------------------
@@ -173,11 +200,11 @@ COMMIT;
 DROP TABLE IF EXISTS `failed_jobs`;
 CREATE TABLE `failed_jobs` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `uuid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `connection` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `exception` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`)
@@ -247,10 +274,10 @@ COMMIT;
 DROP TABLE IF EXISTS `migrations`;
 CREATE TABLE `migrations` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
 -- Records of migrations
@@ -261,6 +288,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (26, '2014_10_12_10
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (27, '2019_08_19_000000_create_failed_jobs_table', 1);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (28, '2019_12_14_000001_create_personal_access_tokens_table', 1);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (29, '2026_04_10_083913_add_delete_at_column_in_users_table', 2);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (30, '2026_04_24_204540_create_categories_table', 3);
 COMMIT;
 
 -- ----------------------------
@@ -304,8 +332,8 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `password_resets`;
 CREATE TABLE `password_resets` (
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   KEY `password_resets_email_index` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -322,11 +350,11 @@ COMMIT;
 DROP TABLE IF EXISTS `personal_access_tokens`;
 CREATE TABLE `personal_access_tokens` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `tokenable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tokenable_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `tokenable_id` bigint unsigned NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `abilities` text COLLATE utf8mb4_unicode_ci,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `abilities` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `last_used_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -350,7 +378,6 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `name`, `token`, `abilities`, `last_used_at`, `created_at`, `updated_at`) VALUES (21, 'App\\Models\\User', 5, 'api_token', '030f45499f62631d2a086a3cadf548dbc4d8d3cf24a02dee8cd4fb1983c065ca', '[\"*\"]', '2026-04-13 14:21:30', '2026-04-13 13:49:44', '2026-04-13 14:21:30');
 INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `name`, `token`, `abilities`, `last_used_at`, `created_at`, `updated_at`) VALUES (22, 'App\\Models\\User', 5, 'api_token', '68244ea3f0e616e64b83d4f7794328ace864962053612d576a2155bdb2e74836', '[\"*\"]', NULL, '2026-04-13 14:36:03', '2026-04-13 14:36:03');
 INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `name`, `token`, `abilities`, `last_used_at`, `created_at`, `updated_at`) VALUES (23, 'App\\Models\\User', 5, 'api_token', 'f03691c0dfd1b860a991a0b74b8b99591b0c855d768e0d3938ff32b166ea56fa', '[\"*\"]', NULL, '2026-04-13 14:42:48', '2026-04-13 14:42:48');
-INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `name`, `token`, `abilities`, `last_used_at`, `created_at`, `updated_at`) VALUES (28, 'App\\Models\\User', 5, 'api_token', '880b62e4717039a61e5737814d8cd3efed8332c434e2f5e275eb4ba9feee5881', '[\"*\"]', '2026-04-13 18:09:42', '2026-04-13 18:09:09', '2026-04-13 18:09:42');
 COMMIT;
 
 -- ----------------------------
@@ -555,15 +582,15 @@ COMMIT;
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'user''s full name',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'user''s full name',
   `gender` tinyint NOT NULL COMMENT '1: male, 2: female',
-  `tel` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'telephone number',
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tel` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'telephone number',
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `username` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `level` tinyint DEFAULT NULL,
-  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `remember_token` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,

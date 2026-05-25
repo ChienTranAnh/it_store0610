@@ -17,8 +17,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 Route::post('/login', [UserController::class, 'login']);
 
+// users
 Route::prefix('users')->group(function () {
     require_once __DIR__ . '/api/users.php';
+});
+
+// categories
+Route::prefix('categories')->group(function () {
+    require_once __DIR__ . '/api/categories.php';
 });
 
 // define routes does not defined
